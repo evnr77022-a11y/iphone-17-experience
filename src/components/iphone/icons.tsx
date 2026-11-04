@@ -1,19 +1,22 @@
 // iOS-style app icons drawn as SVG (no emojis)
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 
-const S = ({ children, bg }: { children: ReactNode; bg: string }) => (
+const S = ({ children, bg }: { children: ReactNode; bg: string }) => {
+  const id = "g" + useId().replace(/:/g, "");
+  return (
   <svg viewBox="0 0 60 60" className="ic-svg">
     <defs>
-      <linearGradient id={`g-${bg}`} x1="0" y1="0" x2="0" y2="1">
+      <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
         {GR[bg]!.map((c, i) => (
           <stop key={i} offset={i / (GR[bg]!.length - 1)} stopColor={c} />
         ))}
       </linearGradient>
     </defs>
-    <rect width="60" height="60" fill={`url(#g-${bg})`} />
+    <rect width="60" height="60" fill={`url(#${id})`} />
     {children}
   </svg>
-);
+  );
+};
 
 const GR: Record<string, string[]> = {
   green: ["#5df777", "#0bc940"],

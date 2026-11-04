@@ -266,7 +266,7 @@ export default function IPhone() {
   const [scale, setScale] = useState(1);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [toggles, setToggles] = useState({ wifi: true, bt: true, air: false, cell: true, flash: false, focus: false });
-  const [bright, setBright] = useState(80);
+  const [bright, setBright] = useState(100);
   const start = useRef<{ y: number; x: number } | null>(null);
   const volT = useRef<ReturnType<typeof setTimeout>>(undefined);
   const screenRef = useRef<HTMLDivElement>(null);
