@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { icons, CalendarIcon } from "./icons";
 import wOrange from "@/assets/wall-orange.jpg";
 import wBlue from "@/assets/wall-blue.jpg";

@@ -33,9 +33,22 @@ const GR: Record<string, string[]> = {
   teal: ["#7de6ff", "#2a8cf0"],
   purple: ["#d88bff", "#8b3dff"],
   appstore: ["#18bfff", "#1c64f2"],
+  pw: ["#5ad1ff", "#1f7cf5"],
 };
 
 export const icons: Record<string, ReactNode> = {
+  youtube: (
+    <S bg="white">
+      <rect x="8" y="16" width="44" height="30" rx="9" fill="#ff0033" />
+      <path d="M26 23.5l12 7.5-12 7.5z" fill="#fff" />
+    </S>
+  ),
+  passwords: (
+    <S bg="pw">
+      <circle cx="30" cy="22" r="9.5" fill="none" stroke="#fff" strokeWidth="4.5" />
+      <path d="M30 31.5V48M30 40h6M30 45h4" stroke="#fff" strokeWidth="4.5" strokeLinecap="round" />
+    </S>
+  ),
   phone: (
     <S bg="green">
       <path d="M22.5 15c1-.3 2 .2 2.5 1.1l2.6 5.2c.4.9.2 1.9-.5 2.5l-2.4 2c1.6 3.6 4.3 6.4 7.9 8l2-2.4c.7-.7 1.7-.9 2.5-.5l5.2 2.6c.9.5 1.4 1.5 1.1 2.5l-1 3.7c-.3 1-1.2 1.7-2.3 1.7C27.7 41.4 18.6 32.3 18.6 20.3c0-1.1.7-2 1.7-2.3z" fill="#fff" />
