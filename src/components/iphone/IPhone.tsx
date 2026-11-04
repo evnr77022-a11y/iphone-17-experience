@@ -4,6 +4,8 @@ import wOrange from "@/assets/wall-orange.jpg";
 import wBlue from "@/assets/wall-blue.jpg";
 import wDark from "@/assets/wall-dark.jpg";
 import photo1 from "@/assets/photo-1.jpg";
+import { Calculator, Safari, Wallet, YouTube, Passwords, Phone, Messages, CalendarApp, Reminders } from "./apps";
+import { Settings } from "./settings";
 
 const WALLS = [wOrange, wBlue, wDark];
 const DOW = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -15,9 +17,9 @@ const NAMES: Record<string, string> = {
   phone: "Phone", messages: "Messages", safari: "Safari", music: "Music", mail: "Mail", calendar: "Calendar",
   photos: "Photos", camera: "Camera", clock: "Clock", weather: "Weather", notes: "Notes", calculator: "Calculator",
   settings: "Settings", appstore: "App Store", maps: "Maps", facetime: "FaceTime", wallet: "Wallet", health: "Health",
-  files: "Files", tv: "TV", podcasts: "Podcasts", reminders: "Reminders",
+  files: "Files", youtube: "YouTube", passwords: "Passwords", tv: "TV", podcasts: "Podcasts", reminders: "Reminders",
 };
-const GRID: AppId[] = ["facetime", "calendar", "photos", "camera", "mail", "clock", "maps", "weather", "reminders", "notes", "calculator", "podcasts", "appstore", "health", "wallet", "settings"];
+const GRID: AppId[] = ["calendar", "photos", "camera", "clock", "weather", "reminders", "notes", "calculator", "youtube", "wallet", "passwords", "settings"];
 const DOCK: AppId[] = ["phone", "safari", "messages", "music"];
 
 function useNow() {
@@ -50,89 +52,6 @@ function StatusBar({ now, dark }: { now: Date; dark?: boolean }) {
 }
 
 /* ---------- apps ---------- */
-function Calculator() {
-  const [d, setD] = useState("0");
-  const [acc, setAcc] = useState<number | null>(null);
-  const [op, setOp] = useState<string | null>(null);
-  const [fresh, setFresh] = useState(true);
-  const calc = (a: number, b: number, o: string) => (o === "+" ? a + b : o === "−" ? a - b : o === "×" ? a * b : b === 0 ? NaN : a / b);
-  const fmt = (n: number) => (isNaN(n) || !isFinite(n) ? "Error" : String(+n.toPrecision(9)));
-  const press = (k: string) => {
-    if (/[0-9]/.test(k)) { setD(fresh || d === "0" ? k : d.length < 9 ? d + k : d); setFresh(false); }
-    else if (k === ",") { if (fresh) { setD("0."); setFresh(false); } else if (!d.includes(".")) setD(d + "."); }
-    else if (k === "AC") { setD("0"); setAcc(null); setOp(null); setFresh(true); }
-    else if (k === "±") setD(fmt(-parseFloat(d)));
-    else if (k === "%") setD(fmt(parseFloat(d) / 100));
-    else if (k === "=") { if (op && acc !== null) { setD(fmt(calc(acc, parseFloat(d), op))); setAcc(null); setOp(null); setFresh(true); } }
-    else { const v = parseFloat(d); const r = op && acc !== null && !fresh ? calc(acc, v, op) : v; setAcc(r); setD(fmt(r)); setOp(k); setFresh(true); }
-  };
-  const keys = [["AC", "±", "%", "÷"], ["7", "8", "9", "×"], ["4", "5", "6", "−"], ["1", "2", "3", "+"], ["0", ",", "="]];
-  const shown = d.replace(".", ",");
-  return (
-    <div className="app calc">
-      <div className="calc-d" style={{ fontSize: shown.length > 6 ? 88 - (shown.length - 6) * 9 : 88 }}>{shown}</div>
-      {keys.map((r, i) => (
-        <div className="calc-r" key={i}>
-          {r.map((k) => (
-            <button key={k} onClick={() => press(k)}
-              className={`ck ${k === "0" ? "zero" : ""} ${["÷", "×", "−", "+", "="].includes(k) ? "op" : ["AC", "±", "%"].includes(k) ? "fn" : ""} ${op === k && fresh ? "sel" : ""}`}>
-              {k === "AC" && d !== "0" ? "C" : k}
-            </button>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Settings({ wall, setWall }: { wall: number; setWall: (n: number) => void }) {
-  const [air, setAir] = useState(false);
-  const Row = ({ c, ic, t, v, tog }: { c: string; ic: ReactNode; t: string; v?: string; tog?: [boolean, (b: boolean) => void] }) => (
-    <div className="srow">
-      <span className="sic" style={{ background: c }}>{ic}</span>
-      <span className="st">{t}</span>
-      {tog ? <button className={`tog ${tog[0] ? "on" : ""}`} onClick={() => tog[1](!tog[0])}><i /></button> : <span className="sv">{v} <b>›</b></span>}
-    </div>
-  );
-  const g = (p: string) => <svg viewBox="0 0 20 20" width="17" height="17"><path d={p} fill="#fff" /></svg>;
-  return (
-    <div className="app light set">
-      <h1>Settings</h1>
-      <div className="srch">Search</div>
-      <div className="sgrp prof">
-        <span className="av">AK</span>
-        <div><b>Abdullah</b><small>Apple Account, iCloud+, and more</small></div><b className="chev">›</b>
-      </div>
-      <div className="sgrp">
-        <Row c="#ff9500" ic={g("M2 11l16-7-6 14-2-6z")} t="Airplane Mode" tog={[air, setAir]} />
-        <Row c="#0a84ff" ic={g("M10 15l-2-2a3 3 0 0 1 4 0zM5 10a7 7 0 0 1 10 0l-1.5 1.5a5 5 0 0 0-7 0zM2 7a11 11 0 0 1 16 0l-1.5 1.5a9 9 0 0 0-13 0z")} t="Wi-Fi" v={air ? "Off" : "Home_5G"} />
-        <Row c="#0a84ff" ic={g("M9 2l6 5-4 3 4 3-6 5V11L5 14l-1-1 4-3-4-3 1-1 4 3z")} t="Bluetooth" v={air ? "Off" : "On"} />
-        <Row c="#34c759" ic={g("M4 13h3v4H4zM9 9h3v8H9zM14 4h3v13h-3z")} t="Cellular" v="" />
-      </div>
-      <div className="slabel">WALLPAPER</div>
-      <div className="sgrp walls">
-        {WALLS.map((w, i) => (
-          <button key={i} className={`wp ${wall === i ? "on" : ""}`} onClick={() => setWall(i)} style={{ backgroundImage: `url(${w})` }}>
-            <span>{hm(new Date())}</span>
-          </button>
-        ))}
-      </div>
-      <div className="sgrp">
-        <Row c="#8e8e93" ic={g("M10 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM9 1h2v3H9zM9 16h2v3H9zM1 9h3v2H1zM16 9h3v2h-3z")} t="General" v="" />
-        <Row c="#0a84ff" ic={g("M10 3a7 7 0 1 0 7 7h-7z")} t="Display & Brightness" v="" />
-        <Row c="#ff3b30" ic={g("M10 2a5 5 0 0 0-5 5v4l-2 3h14l-2-3V7a5 5 0 0 0-5-5zM8 16a2 2 0 0 0 4 0z")} t="Notifications" v="" />
-        <Row c="#34c759" ic={g("M3 6h12a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zM18 9h1v2h-1z")} t="Battery" v="87%" />
-      </div>
-      <div className="slabel">ABOUT</div>
-      <div className="sgrp">
-        <div className="srow"><span className="st">Model Name</span><span className="sv">iPhone 17 Pro</span></div>
-        <div className="srow"><span className="st">iOS Version</span><span className="sv">26.1</span></div>
-        <div className="srow"><span className="st">Capacity</span><span className="sv">256 GB</span></div>
-      </div>
-    </div>
-  );
-}
-
 function Photos() {
   const all = [photo1, ...WALLS, photo1, ...WALLS, photo1, ...WALLS, photo1, ...WALLS];
   const [big, setBig] = useState<string | null>(null);
@@ -238,16 +157,6 @@ function CameraApp() {
   );
 }
 
-function Generic({ id, now }: { id: AppId; now: Date }) {
-  return (
-    <div className="app light generic">
-      <div className="gen-ic"><Icon id={id} now={now} /></div>
-      <h2>{NAMES[id]}</h2>
-      <p>Welcome to {NAMES[id]}</p>
-    </div>
-  );
-}
-
 /* ---------- main phone ---------- */
 export default function IPhone() {
   const now = useNow();
@@ -333,17 +242,25 @@ export default function IPhone() {
   const renderApp = (id: AppId) => {
     switch (id) {
       case "calculator": return <Calculator />;
-      case "settings": return <Settings wall={wall} setWall={setWall} />;
+      case "settings": return <Settings wall={wall} setWall={setWall} walls={WALLS} toggles={toggles} setToggles={setToggles} bright={bright} setBright={setBright} vol={vol} setVol={setVol} silent={silent} setSilent={setSilent} time={hm(now)} />;
+      case "safari": return <Safari />;
+      case "wallet": return <Wallet />;
+      case "youtube": return <YouTube />;
+      case "passwords": return <Passwords />;
+      case "phone": return <Phone />;
+      case "messages": return <Messages />;
+      case "calendar": return <CalendarApp now={now} />;
+      case "reminders": return <Reminders />;
       case "photos": return <Photos />;
       case "weather": return <Weather />;
       case "clock": return <ClockApp />;
       case "notes": return <Notes />;
       case "music": return <Music />;
       case "camera": return <CameraApp />;
-      default: return <Generic id={id} now={now} />;
+      default: return null;
     }
   };
-  const lightApp = app && !["calculator", "photos", "weather", "clock", "music", "camera"].includes(app);
+  const lightApp = app && !["calculator", "photos", "weather", "clock", "music", "camera", "wallet", "youtube", "phone"].includes(app);
 
   return (
     <div className="stage" onMouseMove={onTilt} onMouseLeave={() => setTilt({ x: 0, y: 0 })}>
