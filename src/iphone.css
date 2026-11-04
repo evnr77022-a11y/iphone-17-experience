@@ -64,7 +64,7 @@
 .wid{height:158px;border-radius:24px;padding:14px 16px;cursor:pointer;position:relative;box-shadow:0 6px 20px oklch(0 0 0 / .2)}
 .wid-w{background:linear-gradient(180deg,#0f2a5e,#3a69b6)}
 .wid-w b{font-size:15px}.wt{font-size:42px;font-weight:300;line-height:1.05}.wid-w small{position:absolute;bottom:14px;font-size:12px;font-weight:600}
-.wid-w .moon{position:absolute;top:66px;left:16px}
+.wid-w .moon{position:absolute;top:16px;right:16px}
 .wid-c{background:#fff;color:#000}.wid-c small{color:#ff3b30;font-weight:700;font-size:12px}.cd{font-size:48px;font-weight:300;line-height:1}.ev{position:absolute;bottom:14px;font-size:12px;color:#8e8e93}
 .wl{display:contents}.wl span{display:none}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);row-gap:22px;margin-top:20px}

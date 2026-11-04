@@ -17,7 +17,7 @@ const NAMES: Record<string, string> = {
   settings: "Settings", appstore: "App Store", maps: "Maps", facetime: "FaceTime", wallet: "Wallet", health: "Health",
   files: "Files", tv: "TV", podcasts: "Podcasts", reminders: "Reminders",
 };
-const GRID: AppId[] = ["facetime", "calendar", "photos", "camera", "mail", "clock", "maps", "weather", "reminders", "notes", "tv", "podcasts", "appstore", "health", "wallet", "settings", "files", "calculator"];
+const GRID: AppId[] = ["facetime", "calendar", "photos", "camera", "mail", "clock", "maps", "weather", "reminders", "notes", "calculator", "podcasts", "appstore", "health", "wallet", "settings"];
 const DOCK: AppId[] = ["phone", "safari", "messages", "music"];
 
 function useNow() {
@@ -399,7 +399,7 @@ export default function IPhone() {
                   <div className="ring wide"><small>Riyadh</small><b>Clear</b></div>
                 </div>
                 <div className="lk-notif">
-                  <span className="ic sm">{icons.messages}</span>
+                  <span className="ic sm">{icons["messages"]}</span>
                   <div><b>Messages</b><span>Welcome to your new iPhone 17 Pro</span></div><small>now</small>
                 </div>
                 <div className="lk-bot">
@@ -438,9 +438,9 @@ export default function IPhone() {
                   <button className={`cc-box circ ${toggles.flash ? "on" : ""}`} onClick={() => setToggles((t) => ({ ...t, flash: !t.flash }))}>
                     <svg viewBox="0 0 16 22" width="14"><path d="M2 1h12v4l-3 4v12H5V9L2 5z" fill="currentColor" /></svg>
                   </button>
-                  <button className="cc-box circ" onClick={(e) => { setCc(false); openApp("clock", e); }}>{icons.clock}</button>
-                  <button className="cc-box circ" onClick={(e) => { setCc(false); openApp("calculator", e); }}>{icons.calculator}</button>
-                  <button className="cc-box circ" onClick={(e) => { setCc(false); openApp("camera", e); }}>{icons.camera}</button>
+                  <button className="cc-box circ" onClick={(e) => { setCc(false); openApp("clock", e); }}>{icons["clock"]}</button>
+                  <button className="cc-box circ" onClick={(e) => { setCc(false); openApp("calculator", e); }}>{icons["calculator"]}</button>
+                  <button className="cc-box circ" onClick={(e) => { setCc(false); openApp("camera", e); }}>{icons["camera"]}</button>
                 </div>
               </div>
 

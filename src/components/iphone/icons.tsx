@@ -5,8 +5,8 @@ const S = ({ children, bg }: { children: ReactNode; bg: string }) => (
   <svg viewBox="0 0 60 60" className="ic-svg">
     <defs>
       <linearGradient id={`g-${bg}`} x1="0" y1="0" x2="0" y2="1">
-        {GR[bg].map((c, i) => (
-          <stop key={i} offset={i / (GR[bg].length - 1)} stopColor={c} />
+        {GR[bg]!.map((c, i) => (
+          <stop key={i} offset={i / (GR[bg]!.length - 1)} stopColor={c} />
         ))}
       </linearGradient>
     </defs>
