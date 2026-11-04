@@ -32,7 +32,7 @@ function useNow() {
 const hm = (d: Date) => `${d.getHours() % 12 || 12}:${String(d.getMinutes()).padStart(2, "0")}`;
 
 function Icon({ id, now }: { id: AppId; now: Date }) {
-  return id === "calendar" ? <CalendarIcon day={now.getDate()} dow={DOW[now.getDay()]} /> : icons[id];
+  return id === "calendar" ? <CalendarIcon day={now.getDate()} dow={DOW[now.getDay()] ?? ""} /> : icons[id];
 }
 
 /* ---------- status bar ---------- */
@@ -367,7 +367,7 @@ export default function IPhone() {
                     <b>Riyadh</b><div className="wt">24°</div><i className="moon" /><small>Clear<br />H:29° L:18°</small>
                   </div>
                   <div className="wid wid-c" onClick={(e) => openApp("calendar", e)}>
-                    <small>{DOWL[now.getDay()].toUpperCase()}</small><div className="cd">{now.getDate()}</div><span className="ev">No events today</span>
+                    <small>{(DOWL[now.getDay()] ?? "").toUpperCase()}</small><div className="cd">{now.getDate()}</div><span className="ev">No events today</span>
                   </div>
                   <div className="wl"><span>Weather</span><span>Calendar</span></div>
                 </div>
