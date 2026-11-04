@@ -70,7 +70,7 @@ export function Calculator() {
             const sel = op === k && b === null;
             return (
               <button key={k} onClick={() => press(k)} className={`ck ${k === "0" ? "zero" : ""} ${cls} ${sel ? "sel" : ""}`}>
-                {glyph[k] ?? (k === "AC" ? (cur && cur !== "0" && !done ? "⌫".replace("⌫", "C") : "AC") : k)}
+                {glyph[k] ?? (k === "AC" ? (cur && cur !== "0" && !done ? "C" : "AC") : k)}
               </button>
             );
           })}
