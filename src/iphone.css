@@ -207,7 +207,7 @@
 .side{top:252px;height:96px}
 .camctl{top:518px;height:58px;width:4px;right:-2.5px!important;background:linear-gradient(270deg,#3a1a08,#6e3a1c 50%,#2a1206)!important;border-radius:0 2px 2px 0}
 /* calculator */
-.calc{padding:0 18px 46px}
+.calc{padding:0 16px 46px;align-items:center}
 .calc-h{text-align:right;color:#8e8e93;font-size:30px;padding:0 12px;min-height:38px;white-space:nowrap;overflow:hidden}
 .calc-d{padding:0 12px 14px;font-weight:300;letter-spacing:-1px}
 .ck{display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font-weight:400}
