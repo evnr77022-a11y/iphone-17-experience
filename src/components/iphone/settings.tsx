@@ -34,7 +34,7 @@ export function Settings(p: P) {
   const T = p.toggles;
   const tg = (k: keyof Toggles) => [T[k], (b: boolean) => p.setToggles((t) => ({ ...t, [k]: b }))] as [boolean, (b: boolean) => void];
 
-  const Row = ({ c, ic, t, v, tog, to }: { c?: string; ic?: ReactNode; t: string; v?: string; tog?: [boolean, (b: boolean) => void]; to?: string }) => (
+  const Row = ({ c, ic, t, v, tog, to }: { c?: string; ic?: ReactNode; t: string; v?: string | undefined; tog?: [boolean, (b: boolean) => void]; to?: string }) => (
     <div className={`srow ${to ? "tap" : ""}`} onClick={to ? () => push(to) : undefined}>
       {c && <span className="sic" style={{ background: c }}>{ic}</span>}
       <span className="st">{t}</span>
