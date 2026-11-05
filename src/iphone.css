@@ -329,3 +329,4 @@ button.srow{width:100%;background:none;border:0;border-bottom:.5px solid #e5e5ea
 .colors button{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}
 .colors button.on{border-color:#fff}
 .colors span{margin-left:6px;min-width:100px}
+.hb.r.camctl{background:linear-gradient(270deg,#222,#555 50%,#1a1a1a)!important}
