@@ -20,6 +20,12 @@ const NAMES: Record<string, string> = {
   files: "Files", youtube: "YouTube", passwords: "Passwords", tv: "TV", podcasts: "Podcasts", reminders: "Reminders",
 };
 const GRID: AppId[] = ["calendar", "photos", "camera", "clock", "weather", "reminders", "notes", "calculator", "youtube", "wallet", "passwords", "settings"];
+const COLORS = [
+  { n: "Cosmic Orange", g: "linear-gradient(135deg,#f0a26a,#b8561c 20%,#e48a4e 42%,#8c3c10 60%,#d9773a 80%,#f5b080)", b: "#e8935a" },
+  { n: "Deep Blue", g: "linear-gradient(135deg,#6a7fa8,#26365a 20%,#4a5f8a 42%,#18223c 60%,#3c5078 80%,#7a90b8)", b: "#4a5f8a" },
+  { n: "Silver", g: "linear-gradient(135deg,#f4f4f6,#a8a8ae 20%,#e2e2e6 42%,#8a8a90 60%,#d0d0d4 80%,#fafafa)", b: "#d0d0d4" },
+  { n: "Black", g: "linear-gradient(135deg,#5a5a5e,#1c1c1e 20%,#3a3a3c 42%,#111 60%,#2c2c2e 80%,#6a6a6e)", b: "#3a3a3c" },
+];
 const DOCK: AppId[] = ["phone", "safari", "messages", "music"];
 
 function useNow() {
@@ -167,6 +173,7 @@ export default function IPhone() {
   const [origin, setOrigin] = useState("50% 50%");
   const [cc, setCc] = useState(false);
   const [wall, setWall] = useState(0);
+  const [color, setColor] = useState(0);
   const [vol, setVol] = useState(60);
   const [volShow, setVolShow] = useState(false);
   const [silent, setSilent] = useState(false);
@@ -266,7 +273,7 @@ export default function IPhone() {
     <div className="stage" onMouseMove={onTilt} onMouseLeave={() => setTilt({ x: 0, y: 0 })}>
       <div className="stage-glow" />
       <div className="scene" style={{ transform: `scale(${scale}) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
-        <div className="frame">
+        <div className="frame" style={{ ["--fc" as string]: COLORS[color]!.g, ["--bc" as string]: COLORS[color]!.b }}>
           {/* left: action button, volume */}
           <button className="hb l action" aria-label="Action button" onClick={() => { setSilent(!silent); flashIsland("silent"); }} />
           <button className="hb l vup" aria-label="Volume up" onClick={() => volume(10)} />
@@ -362,12 +369,13 @@ export default function IPhone() {
               </div>
 
               {/* dynamic island */}
-              <div className={`island ${island} ${volShow ? "vol" : ""}`}>
+              <div className={`island ${island}`}>
                 {island === "silent" && <span className="isl-c"><span className={`bell ${silent ? "muted" : ""}`} />{silent ? "Silent Mode" : "Ring"}</span>}
                 {island === "unlock" && <span className="isl-c"><svg width="12" height="16" viewBox="0 0 14 18"><path d="M3 8V5a4 4 0 0 1 8 0" stroke="#fff" strokeWidth="2" fill="none"/><rect x="0" y="8" width="14" height="10" rx="2.5" fill="#fff"/></svg></span>}
-                {volShow && !island && <span className="isl-v"><svg width="16" height="14" viewBox="0 0 16 14"><path d="M1 4h3l4-3v12L4 10H1z" fill="#fff"/></svg><span className="vbar"><i style={{ width: `${vol}%` }} /></span></span>}
+                {false && <span className="isl-v"><svg width="16" height="14" viewBox="0 0 16 14"><path d="M1 4h3l4-3v12L4 10H1z" fill="#fff"/></svg><span className="vbar"><i style={{ width: `${vol}%` }} /></span></span>}
               </div>
 
+              <div className={`vhud ${volShow ? "show" : ""}`}><div className="vhud-bar"><i style={{ height: `${vol}%` }} /></div><svg width="14" height="12" viewBox="0 0 16 14"><path d="M1 4h3l4-3v12L4 10H1z" fill="#fff"/>{vol > 0 && <path d="M10.5 4.5a3.5 3.5 0 0 1 0 5" stroke="#fff" strokeWidth="1.5" fill="none" strokeLinecap="round"/>}{vol > 50 && <path d="M12.5 2.5a6.5 6.5 0 0 1 0 9" stroke="#fff" strokeWidth="1.5" fill="none" strokeLinecap="round"/>}</svg></div>
               {!locked && <div className={`homebar ${lightApp ? "dark" : ""}`} onClick={goHome} />}
               {locked && <div className="homebar" />}
               {!on && <div className="blackout" onClick={() => setOn(true)} />}
@@ -377,6 +385,7 @@ export default function IPhone() {
         </div>
         <div className="floor-shadow" />
       </div>
+      <div className="colors">{COLORS.map((c, i) => <button key={c.n} title={c.n} aria-label={c.n} className={color === i ? "on" : ""} style={{ background: c.g }} onClick={() => setColor(i)} />)}<span>{COLORS[color]!.n}</span></div>
       <p className="hint">Side button: lock · Swipe up: unlock / home · Swipe down top-right: Control Center</p>
     </div>
   );
