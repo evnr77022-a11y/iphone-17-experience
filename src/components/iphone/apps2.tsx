@@ -158,7 +158,7 @@ export function Phone() {
       <div className="ph-who"><h2>{call}</h2><span>{sec < 2 ? "calling…" : `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`}</span></div>
       <div className="ph-opts">
         {["speaker", "FaceTime", "mute", "add", "end", "keypad"].map((o) => o === "end" ? <span key={o} /> : (
-          <button key={o} className={opts[o] ? "on" : ""} onClick={() => setOpts({ ...opts, [o]: !opts[o] })}><i>{o === "mute" ? "🎙︎" : ""}</i><small>{o}</small></button>
+          <button key={o} className={opts[o] ? "on" : ""} onClick={() => setOpts({ ...opts, [o]: !opts[o] })}><i /><small>{o}</small></button>
         ))}
       </div>
       <button className="ph-btn red" onClick={() => { setCall(null); setSec(0); setOpts({}); }}><span style={{ transform: "rotate(135deg)", display: "flex", color: "#fff" }}><CallIc /></span></button>

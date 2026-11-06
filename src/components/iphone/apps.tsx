@@ -1,3 +1,4 @@
+export { Safari, YouTube, Phone, MapsApp, PinPad } from "./apps2";
 import { useEffect, useState, type ReactNode } from "react";
 
 /* ================= Calculator (iOS 18 style) ================= */

@@ -4,7 +4,7 @@ import wOrange from "@/assets/wall-orange.jpg";
 import wBlue from "@/assets/wall-blue.jpg";
 import wDark from "@/assets/wall-dark.jpg";
 import photo1 from "@/assets/photo-1.jpg";
-import { Calculator, Safari, Wallet, YouTube, Passwords, Phone, Messages, CalendarApp, Reminders } from "./apps";
+import { Calculator, Safari, Wallet, YouTube, Passwords, Phone, Messages, CalendarApp, Reminders, MapsApp, PinPad } from "./apps";
 import { Settings } from "./settings";
 
 const WALLS = [wOrange, wBlue, wDark];
@@ -19,7 +19,7 @@ const NAMES: Record<string, string> = {
   settings: "Settings", appstore: "App Store", maps: "Maps", facetime: "FaceTime", wallet: "Wallet", health: "Health",
   files: "Files", youtube: "YouTube", passwords: "Passwords", tv: "TV", podcasts: "Podcasts", reminders: "Reminders",
 };
-const GRID: AppId[] = ["calendar", "photos", "camera", "clock", "weather", "reminders", "notes", "calculator", "youtube", "wallet", "passwords", "settings"];
+const GRID: AppId[] = ["calendar", "photos", "camera", "clock", "weather", "reminders", "notes", "calculator", "youtube", "wallet", "passwords", "maps", "settings"];
 const COLORS = [
   { n: "Cosmic Orange", g: "linear-gradient(135deg,#f0a26a,#b8561c 20%,#e48a4e 42%,#8c3c10 60%,#d9773a 80%,#f5b080)", b: "#e8935a" },
   { n: "Deep Blue", g: "linear-gradient(135deg,#6a7fa8,#26365a 20%,#4a5f8a 42%,#18223c 60%,#3c5078 80%,#7a90b8)", b: "#4a5f8a" },
@@ -179,6 +179,17 @@ export default function IPhone() {
   const [silent, setSilent] = useState(false);
   const [island, setIsland] = useState<"" | "silent" | "unlock">("");
   const [drag, setDrag] = useState(0);
+  const [code, setCodeS] = useState("");
+  const [pin, setPin] = useState<"" | "unlock" | "set" | "confirm">("");
+  const [pinErr, setPinErr] = useState(false);
+  const tmp = useRef("");
+  useEffect(() => { setCodeS(localStorage.getItem("ip-code") ?? ""); }, []);
+  const setCode = (c: string) => { setCodeS(c); localStorage.setItem("ip-code", c); };
+  const pinDone = (c: string) => {
+    if (pin === "unlock") { if (c === code) { setPin(""); setLocked(false); flashIsland("unlock"); } else { setPinErr(true); setTimeout(() => setPinErr(false), 500); } }
+    else if (pin === "set") { tmp.current = c; setPin("confirm"); }
+    else if (pin === "confirm") { if (c === tmp.current) { setCode(c); setPin(""); } else { setPinErr(true); setTimeout(() => setPinErr(false), 500); setPin("set"); } }
+  };
   const [scale, setScale] = useState(1);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [toggles, setToggles] = useState({ wifi: true, bt: true, air: false, cell: true, flash: false, focus: false });
@@ -208,7 +219,7 @@ export default function IPhone() {
     setTimeout(() => { setApp(null); setClosing(false); }, 380);
   };
   const power = () => {
-    if (on) { setOn(false); setLocked(true); setApp(null); setCc(false); }
+    if (on) { setOn(false); setLocked(true); setPin(""); setApp(null); setCc(false); }
     else setOn(true);
   };
   const volume = (d: number) => {
@@ -233,7 +244,7 @@ export default function IPhone() {
     if (!start.current || !on) { start.current = null; return; }
     const r = screenRef.current!.getBoundingClientRect();
     const y = (e.clientY - r.top) / scale, dy = y - start.current.y, sx = start.current.x, sy = start.current.y;
-    if (locked && sy > 700 && dy < -120) { setLocked(false); flashIsland("unlock"); }
+    if (locked && sy > 700 && dy < -120) { if (code) setPin("unlock"); else { setLocked(false); flashIsland("unlock"); } }
     else if (!locked && sy > 800 && dy < -50) goHome();
     else if (!locked && sy < 60 && sx > 250 && dy > 50) setCc(true);
     else if (cc && dy < -60) setCc(false);
@@ -249,7 +260,7 @@ export default function IPhone() {
   const renderApp = (id: AppId) => {
     switch (id) {
       case "calculator": return <Calculator />;
-      case "settings": return <Settings wall={wall} setWall={setWall} walls={WALLS} toggles={toggles} setToggles={setToggles} bright={bright} setBright={setBright} vol={vol} setVol={setVol} silent={silent} setSilent={setSilent} time={hm(now)} />;
+      case "settings": return <Settings wall={wall} setWall={setWall} walls={WALLS} toggles={toggles} setToggles={setToggles} bright={bright} setBright={setBright} vol={vol} setVol={setVol} silent={silent} setSilent={setSilent} time={hm(now)} hasCode={!!code} openPasscode={() => (code ? setCode("") : setPin("set"))} />;
       case "safari": return <Safari />;
       case "wallet": return <Wallet />;
       case "youtube": return <YouTube />;
@@ -264,6 +275,7 @@ export default function IPhone() {
       case "notes": return <Notes />;
       case "music": return <Music />;
       case "camera": return <CameraApp />;
+      case "maps": return <MapsApp />;
       default: return null;
     }
   };
@@ -312,6 +324,7 @@ export default function IPhone() {
                 </div>
               </div>
 
+              {pin && <PinPad title={pin === "unlock" ? "Enter Passcode" : pin === "set" ? "Enter a new passcode" : "Re-enter your new passcode"} error={pinErr} onDone={pinDone} onCancel={() => setPin("")} />}
               {/* lock */}
               <div className={`lock ${locked ? "" : "gone"}`} style={drag ? { transform: `translateY(${drag}px)`, transition: "none", opacity: 1 + drag / 500 } : undefined}>
                 <div className="lk-ic"><svg width="14" height="18" viewBox="0 0 14 18"><path d="M3 8V5a4 4 0 0 1 8 0v3" stroke="#fff" strokeWidth="2" fill="none"/><rect x="0" y="8" width="14" height="10" rx="2.5" fill="#fff"/></svg></div>
