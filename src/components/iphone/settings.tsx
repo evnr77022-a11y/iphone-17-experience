@@ -26,7 +26,7 @@ const IC = {
   face: g("M3 7V4h3M14 4h3v3M17 13v3h-3M6 16H3v-3M7 8v2M13 8v2M10 8v4H9M7 13c2 1.5 4 1.5 6 0"),
 };
 
-export function Settings(p: P) {
+export function Settings(p: P & { hasCode?: boolean; openPasscode?: () => void }) {
   const [stack, setStack] = useState<string[]>(["root"]);
   const page = stack[stack.length - 1]!;
   const push = (s: string) => setStack([...stack, s]);
@@ -141,6 +141,7 @@ export function Settings(p: P) {
         <Row c="#5e5ce6" ic={IC.focus} t="Focus" tog={tg("focus")} />
       </div>
       <div className="sgrp">
+        <button className="srow" onClick={p.openPasscode}><span className="sic" style={{ background: "#34c759" }}><svg viewBox="0 0 20 20" width="16"><rect x="3" y="8" width="14" height="10" rx="2.5" fill="#fff"/><path d="M6 8V6a4 4 0 0 1 8 0v2" stroke="#fff" strokeWidth="2" fill="none"/></svg></span><span className="st">{p.hasCode ? "Turn Passcode Off" : "Turn Passcode On"}</span><span className="sv">{p.hasCode ? "On" : "Off"} ›</span></button>
         <Row c="#8e8e93" ic={IC.gen} t="General" to="general" />
         <Row c="#0a84ff" ic={IC.disp} t="Display & Brightness" to="display" />
         <Row c="#30b0c7" ic={IC.wall} t="Wallpaper" to="wallpaper" />
