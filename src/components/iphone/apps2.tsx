@@ -215,7 +215,7 @@ export function MapsApp() {
 /* ================= Passcode pad ================= */
 export function PinPad({ title, onDone, onCancel, error }: { title: string; onDone: (c: string) => void; onCancel?: () => void; error?: boolean }) {
   const [c, setC] = useState("");
-  useEffect(() => { if (c.length === 6) { const t = setTimeout(() => { onDone(c); setC(""); }, 120); return () => clearTimeout(t); } }, [c, onDone]);
+  useEffect(() => { if (c.length === 6) { const t = setTimeout(() => { onDone(c); setC(""); }, 120); return () => clearTimeout(t); } return undefined; }, [c, onDone]);
   const k = [["1", ""], ["2", "ABC"], ["3", "DEF"], ["4", "GHI"], ["5", "JKL"], ["6", "MNO"], ["7", "PQRS"], ["8", "TUV"], ["9", "WXYZ"]];
   return (
     <div className="pin" onPointerDown={(e) => e.stopPropagation()} onPointerUp={(e) => e.stopPropagation()}>
