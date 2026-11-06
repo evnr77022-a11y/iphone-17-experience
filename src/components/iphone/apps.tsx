@@ -91,53 +91,6 @@ const FAVS = [
   { n: "Time", u: "https://time.is/", c: "#5856d6", l: "T" },
   { n: "Roblox", u: "https://en.m.wikipedia.org/wiki/Roblox", c: "#e2231a", l: "R" },
 ];
-export function Safari() {
-  const [url, setUrl] = useState<string | null>(null);
-  const [input, setInput] = useState("");
-  const [focus, setFocus] = useState(false);
-  const [key, setKey] = useState(0);
-  const go = (q: string) => {
-    q = q.trim(); if (!q) return;
-    const u = /^https?:\/\//.test(q) ? q : /^[\w-]+\.[\w.]+(\/.*)?$/.test(q) ? "https://" + q : `https://en.m.wikipedia.org/w/index.php?search=${encodeURIComponent(q)}`;
-    setUrl(u); setInput(""); setFocus(false);
-  };
-  const host = url ? new URL(url).hostname.replace(/^www\.|^en\.m\.|^ar\.m\./, "") : "";
-  return (
-    <div className="app light saf">
-      <div className="saf-page">
-        {url ? <iframe key={key} src={url} title="page" className="saf-frame" /> : (
-          <div className="saf-start">
-            <h3>Favorites</h3>
-            <div className="saf-favs">
-              {FAVS.map((f) => (
-                <button key={f.n} onClick={() => setUrl(f.u)}>
-                  <span style={{ background: f.c }}>{f.l || <svg viewBox="0 0 20 24" width="22"><path d="M16.4 12.7c0-2.7 2.2-4 2.3-4-1.3-1.9-3.3-2.1-4-2.2-1.7-.2-3.3 1-4.2 1-.9 0-2.2-1-3.6-.9-1.9 0-3.6 1.1-4.5 2.7-1.9 3.4-.5 8.4 1.4 11.1.9 1.3 2 2.8 3.4 2.8 1.4-.1 1.9-.9 3.5-.9s2.1.9 3.6.9c1.5 0 2.4-1.4 3.300-2.700 1-1.5 1.5-3 1.5-3-.1 0-2.900-1.100-2.900-4.400zM13.700 4.600c.7-.9 1.300-2.200 1.100-3.400-1.100 0-2.400.7-3.200 1.700-.7.8-1.300 2.100-1.100 3.300 1.200.1 2.400-.6 3.200-1.600z" fill="#fff"/></svg>}</span>
-                  <small>{f.n}</small>
-                </button>
-              ))}
-            </div>
-            <h3>Privacy Report</h3>
-            <div className="saf-card"><b>🛡</b> In the last seven days, Safari has prevented 27 trackers from profiling you.</div>
-          </div>
-        )}
-      </div>
-      <div className="saf-bar">
-        <form className={`saf-url ${focus ? "f" : ""}`} onSubmit={(e) => { e.preventDefault(); go(input); }}>
-          <svg viewBox="0 0 20 20" width="15"><circle cx="8.5" cy="8.5" r="5.5" stroke="#8e8e93" strokeWidth="2" fill="none"/><path d="M13 13l4 4" stroke="#8e8e93" strokeWidth="2" strokeLinecap="round"/></svg>
-          <input value={input} onFocus={() => setFocus(true)} onBlur={() => setTimeout(() => setFocus(false), 150)} onChange={(e) => setInput(e.target.value)} placeholder={host || "Search or enter website"} />
-          {url && !focus && <button type="button" onClick={() => setKey(key + 1)} className="saf-rl">↻</button>}
-        </form>
-        <div className="saf-tools">
-          <button onClick={() => setUrl(null)} aria-label="Back"><svg viewBox="0 0 24 24" width="24"><path d="M15 4l-8 8 8 8" stroke="#0a84ff" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
-          <button aria-label="Forward" disabled><svg viewBox="0 0 24 24" width="24"><path d="M9 4l8 8-8 8" stroke="#c7c7cc" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
-          <button aria-label="Share"><svg viewBox="0 0 24 24" width="24"><path d="M12 3v12M8 7l4-4 4 4M6 11H5v10h14V11h-1" stroke="#0a84ff" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
-          <button aria-label="Bookmarks" onClick={() => setUrl(null)}><svg viewBox="0 0 24 24" width="24"><path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1zM12 6v14" stroke="#0a84ff" strokeWidth="2" fill="none" strokeLinejoin="round"/></svg></button>
-          <button aria-label="Tabs"><svg viewBox="0 0 24 24" width="24"><rect x="7" y="3" width="14" height="14" rx="3" stroke="#0a84ff" strokeWidth="2" fill="none"/><path d="M4 8v10a3 3 0 0 0 3 3h10" stroke="#0a84ff" strokeWidth="2" fill="none"/></svg></button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ================= Wallet ================= */
 const CARDS = [
@@ -184,35 +137,6 @@ const VIDS = [
   { id: "eRsGyueVLvQ", t: "Sintel - Open Movie", c: "Blender", v: "9M views" },
   { id: "dQw4w9WgXcQ", t: "Rick Astley - Never Gonna Give You Up", c: "Rick Astley", v: "1.6B views" },
 ];
-export function YouTube() {
-  const [play, setPlay] = useState<string | null>(null);
-  const [q, setQ] = useState("");
-  const list = VIDS.filter((v) => v.t.toLowerCase().includes(q.toLowerCase()));
-  const cur = VIDS.find((v) => v.id === play);
-  return (
-    <div className="app yt">
-      <div className="yt-head">
-        <span className="yt-logo"><svg viewBox="0 0 28 20" width="30"><rect width="28" height="20" rx="5" fill="#ff0033"/><path d="M11 6l7 4-7 4z" fill="#fff"/></svg><b>YouTube</b></span>
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" />
-      </div>
-      {cur && (
-        <div className="yt-player">
-          <iframe src={`https://www.youtube-nocookie.com/embed/${cur.id}?autoplay=1&playsinline=1`} title={cur.t} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
-          <div className="yt-info"><b>{cur.t}</b><small>{cur.c} · {cur.v}</small></div>
-        </div>
-      )}
-      <div className="yt-list">
-        {list.filter((v) => v.id !== play).map((v) => (
-          <button key={v.id} className="yt-item" onClick={() => setPlay(v.id)}>
-            <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="" />
-            <div><b>{v.t}</b><small>{v.c} · {v.v}</small></div>
-          </button>
-        ))}
-      </div>
-      <div className="yt-tabs">{["Home", "Shorts", "+", "Subscriptions", "You"].map((t) => <span key={t} className={t === "Home" ? "on" : ""}>{t}</span>)}</div>
-    </div>
-  );
-}
 
 /* ================= Passwords ================= */
 const PW = [
@@ -276,33 +200,6 @@ export function Passwords() {
 }
 
 /* ================= Phone ================= */
-export function Phone() {
-  const [n, setN] = useState("");
-  const [call, setCall] = useState(false);
-  const [sec, setSec] = useState(0);
-  useEffect(() => { if (!call) return; const t = setInterval(() => setSec((s) => s + 1), 1000); return () => clearInterval(t); }, [call]);
-  const keys = [["1", ""], ["2", "ABC"], ["3", "DEF"], ["4", "GHI"], ["5", "JKL"], ["6", "MNO"], ["7", "PQRS"], ["8", "TUV"], ["9", "WXYZ"], ["*", ""], ["0", "+"], ["#", ""]];
-  if (call) return (
-    <div className="app ph-call">
-      <div className="ph-who"><h2>{n || "Unknown"}</h2><span>{`${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`}</span></div>
-      <button className="ph-btn red" onClick={() => { setCall(false); setSec(0); }}><svg viewBox="0 0 30 30" width="34" style={{ transform: "rotate(135deg)" }}><path d="M9 4c.8-.2 1.6.2 2 .9l2 4.2c.3.7.2 1.5-.4 2l-1.9 1.6c1.3 2.9 3.4 5.1 6.3 6.4l1.6-1.9c.5-.6 1.3-.7 2-.4l4.200 2c.7.400 1.100 1.200.900 2l-.800 3c-.200.800-1 1.400-1.800 1.400C13.100 25.200 5.800 17.900 5.800 8.300c0-.900.600-1.600 1.400-1.800z" fill="#fff"/></svg></button>
-    </div>
-  );
-  return (
-    <div className="app ph-pad">
-      <div className="ph-num">{n}</div>
-      <div className="ph-keys">
-        {keys.map(([k, s]) => <button key={k} onClick={() => n.length < 15 && setN(n + k)}><b>{k}</b><small>{s}</small></button>)}
-      </div>
-      <div className="ph-row">
-        <span />
-        <button className="ph-btn" onClick={() => setCall(true)}><svg viewBox="0 0 30 30" width="34"><path d="M9 4c.8-.2 1.6.2 2 .9l2 4.2c.3.7.2 1.5-.4 2l-1.9 1.6c1.3 2.9 3.4 5.1 6.3 6.4l1.6-1.9c.5-.6 1.3-.7 2-.4l4.2 2c.7.4 1.1 1.2.9 2l-.8 3c-.2.8-1 1.4-1.8 1.4C13.1 25.2 5.8 17.9 5.8 8.3c0-.9.6-1.6 1.4-1.8z" fill="#fff"/></svg></button>
-        {n ? <button className="ph-del" onClick={() => setN(n.slice(0, -1))}>⌫</button> : <span />}
-      </div>
-      <div className="tabbar">{["Favorites", "Recents", "Contacts", "Keypad", "Voicemail"].map((t) => <span key={t} className={t === "Keypad" ? "on blue" : ""}>{t}</span>)}</div>
-    </div>
-  );
-}
 
 /* ================= Messages ================= */
 export function Messages() {
@@ -371,3 +268,4 @@ export function Reminders() {
     </div>
   );
 }
+
