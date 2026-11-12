@@ -37,6 +37,13 @@ const GR: Record<string, string[]> = {
 };
 
 export const icons: Record<string, ReactNode> = {
+  clips: (
+    <S bg="#000">
+      <path d="M33 14c1 4 4 7 8 7v6c-3 0-6-1-8-3v11a9 9 0 1 1-9-9v6a3 3 0 1 0 3 3V14z" fill="#25f4ee" transform="translate(-1.5 -1)" />
+      <path d="M33 14c1 4 4 7 8 7v6c-3 0-6-1-8-3v11a9 9 0 1 1-9-9v6a3 3 0 1 0 3 3V14z" fill="#fe2c55" transform="translate(1.5 1)" />
+      <path d="M33 14c1 4 4 7 8 7v6c-3 0-6-1-8-3v11a9 9 0 1 1-9-9v6a3 3 0 1 0 3 3V14z" fill="#fff" />
+    </S>
+  ),
   youtube: (
     <S bg="white">
       <rect x="8" y="16" width="44" height="30" rx="9" fill="#ff0033" />

@@ -5,6 +5,7 @@ import wBlue from "@/assets/wall-blue.jpg";
 import wDark from "@/assets/wall-dark.jpg";
 import photo1 from "@/assets/photo-1.jpg";
 import { Calculator, Safari, Wallet, YouTube, Passwords, Phone, Messages, CalendarApp, Reminders, MapsApp, PinPad } from "./apps";
+import { Clips } from "./clips";
 import { Settings } from "./settings";
 
 const WALLS = [wOrange, wBlue, wDark];
@@ -17,9 +18,9 @@ const NAMES: Record<string, string> = {
   phone: "Phone", messages: "Messages", safari: "Safari", music: "Music", mail: "Mail", calendar: "Calendar",
   photos: "Photos", camera: "Camera", clock: "Clock", weather: "Weather", notes: "Notes", calculator: "Calculator",
   settings: "Settings", appstore: "App Store", maps: "Maps", facetime: "FaceTime", wallet: "Wallet", health: "Health",
-  files: "Files", youtube: "YouTube", passwords: "Passwords", tv: "TV", podcasts: "Podcasts", reminders: "Reminders",
+  files: "Files", youtube: "YouTube", clips: "Clips", passwords: "Passwords", tv: "TV", podcasts: "Podcasts", reminders: "Reminders",
 };
-const GRID: AppId[] = ["calendar", "photos", "camera", "clock", "weather", "reminders", "notes", "calculator", "youtube", "wallet", "passwords", "maps", "settings"];
+const GRID: AppId[] = ["calendar", "photos", "camera", "clock", "weather", "reminders", "notes", "calculator", "youtube", "clips", "wallet", "passwords", "maps", "settings"];
 const COLORS = [
   { n: "Cosmic Orange", g: "linear-gradient(135deg,#f0a26a,#b8561c 20%,#e48a4e 42%,#8c3c10 60%,#d9773a 80%,#f5b080)", b: "#e8935a" },
   { n: "Deep Blue", g: "linear-gradient(135deg,#6a7fa8,#26365a 20%,#4a5f8a 42%,#18223c 60%,#3c5078 80%,#7a90b8)", b: "#4a5f8a" },
@@ -264,6 +265,7 @@ export default function IPhone() {
       case "safari": return <Safari />;
       case "wallet": return <Wallet />;
       case "youtube": return <YouTube />;
+      case "clips": return <Clips />;
       case "passwords": return <Passwords />;
       case "phone": return <Phone />;
       case "messages": return <Messages />;
@@ -279,7 +281,7 @@ export default function IPhone() {
       default: return null;
     }
   };
-  const lightApp = app && !["calculator", "photos", "weather", "clock", "music", "camera", "wallet", "youtube", "phone"].includes(app);
+  const lightApp = app && !["calculator", "photos", "weather", "clock", "music", "camera", "wallet", "youtube", "clips", "phone"].includes(app);
 
   return (
     <div className="stage" onMouseMove={onTilt} onMouseLeave={() => setTilt({ x: 0, y: 0 })}>
@@ -331,9 +333,9 @@ export default function IPhone() {
                 <div className="lk-date">{DOWL[now.getDay()]}, {MON[now.getMonth()]} {now.getDate()}</div>
                 <div className="lk-time">{hm(now)}</div>
                 <div className="lk-wid">
-                  <div className="ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" stroke="rgba(255,255,255,.3)" strokeWidth="4" fill="none"/><circle cx="18" cy="18" r="15" stroke="#fff" strokeWidth="4" fill="none" strokeDasharray="82 100" strokeLinecap="round" transform="rotate(-90 18 18)"/></svg><b>87</b></div>
-                  <div className="ring"><b className="big">24°</b><small>18 29</small></div>
-                  <div className="ring wide"><small>Riyadh</small><b>Clear</b></div>
+                  <div className="gw"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" stroke="rgba(255,255,255,.28)" strokeWidth="3.5" fill="none" strokeDasharray="75 101" strokeLinecap="round" transform="rotate(135 20 20)"/><circle cx="20" cy="20" r="16" stroke="#fff" strokeWidth="3.5" fill="none" strokeDasharray="65 101" strokeLinecap="round" transform="rotate(135 20 20)"/></svg><b>87</b><small className="gi"><svg width="13" height="7" viewBox="0 0 13 7"><rect x=".5" y=".5" width="10" height="6" rx="1.8" stroke="#fff" fill="none"/><rect x="2" y="2" width="7" height="3" rx=".8" fill="#fff"/><rect x="11.4" y="2.3" width="1.2" height="2.4" rx=".5" fill="#fff"/></svg></small></div>
+                  <div className="gw"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" stroke="rgba(255,255,255,.28)" strokeWidth="3.5" fill="none" strokeDasharray="75 101" strokeLinecap="round" transform="rotate(135 20 20)"/><circle cx="34" cy="26" r="2.6" fill="#fff" stroke="rgba(0,0,0,.35)" strokeWidth="1"/></svg><b>24°</b><small className="gl"><span>18</span><span>29</span></small></div>
+                  <div className="lw-txt"><small><svg width="13" height="13" viewBox="0 0 20 20"><path d="M14 13a6 6 0 0 1-7-9 6 6 0 1 0 7 9z" fill="#fff"/></svg> Riyadh</small><b>Clear</b><small>H:29° L:18°</small></div>
                 </div>
                 <div className="lk-notif">
                   <span className="ic sm">{icons["messages"]}</span>
